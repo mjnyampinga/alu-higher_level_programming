@@ -1,8 +1,18 @@
 #!/usr/bin/node
-const factorial (num) {
-    if (isNaN(num) || num <= 1) {
-      return 1;
-    }
-    return num * factorial(num - 1);
+function factorial(n) {
+  if (isNaN(n)) {
+    return 1;
+  } else if (n === 0) {
+    return 1;
+  } else {
+    return n * factorial(n - 1);
   }
-  console.log(factorial(parseInt(process.argv[2])));
+};
+
+if (process.argv.length !== 3) {
+  console.log('Usage: node 10-factorial.js <integer>');
+} else {
+  const num = parseInt(process.argv[2]);
+  const result = factorial(num);
+  console.log(result);
+}

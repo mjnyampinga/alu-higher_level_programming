@@ -10,7 +10,7 @@ function factorial(n) {
 };
 
 if (process.argv.length !== 3) {
-  console.log('Usage: node 10-factorial.js <integer>');
+  console.log(result);
 } else {
   const num = parseInt(process.argv[2]);
   const result = factorial(num);

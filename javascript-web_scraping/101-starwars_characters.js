@@ -1,36 +1,29 @@
 #!/usr/bin/node
+const movieId = process.argv.slice(2)[0];
 const request = require('request');
 
-const movieID = process.argv[2];
-const apiUrl = `https://swapi-api.alx-tools.com/api/films/${movieID}`;
+const filmsUrl = `https://swapi-api.hbtn.io/api/films/${movieId}`;
 
-request(apiUrl, (error, response, body) => {
+function printCharacterName (characters, index) {
+  request(characters[index], (error, response, body) => {
+    if (error) {
+      console.log(error);
+    } else {
+      const name = JSON.parse(body).name;
+      console.log(name);
+      if (index < characters.length - 1) {
+        printCharacterName(characters, index + 1);
+      }
+    }
+  });
+}
+
+request(filmsUrl, (error, response, body) => {
   if (error) {
-    console.error(error);
+    console.log(error);
   } else {
-    const movie = JSON.parse(body);
-    const characterUrls = movie.characters;
-    const characters = [];
-
-    const fetchCharacter = (characterUrl) => {
-      request(characterUrl, (error, response, body) => {
-        if (error) {
-          console.error(error);
-        } else {
-          const character = JSON.parse(body);
-          characters.push(character.name);
-
-          if (characters.length === characterUrls.length) {
-            characters.forEach((characterName) => {
-              console.log(characterName);
-            });
-          }
-        }
-      });
-    };
-
-    characterUrls.forEach((characterUrl) => {
-      fetchCharacter(characterUrl);
-    });
+    const parseData = JSON.parse(body);
+    const characters = parseData.characters;
+    printCharacterName(characters, 0);
   }
 });

@@ -1,10 +1,7 @@
-const fs = require('fs');
+#!/usr/bin/node
+const req = require('request');
+const url = `https://swapi-api.hbtn.io/api/films/${process.argv[2]}`;
 
-const filePath = process.argv[2];
-const content = process.argv[3];
-
-fs.writeFile(filePath, content, 'utf-8', (err) => {
-  if (err) {
-    console.error(err);
-  }
+req.get(url, (err, res) => {
+  err ? console.log(err) : console.log(JSON.parse(res.body).title);
 });
